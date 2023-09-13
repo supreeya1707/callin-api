@@ -8,8 +8,8 @@ $array = json_decode($json, true);
 //$sqlSelect= "select * from rbh_excu_itemrecive ";
 $sqlSelect= "select * from rbh_excu_itemrecive where vn= $array[vn] and icode = $array[icode] ";
 $resSelect = $mysql->selectAll($sqlSelect, null);
-print_r($array);
-exit();
+//print_r($array);
+//exit();
 //echo json_encode($resSelect);
 
 
@@ -54,7 +54,6 @@ if($resSelect){
 
 
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Origin: http://www.rbhportal.com");
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Methods: OPTIONS,GET,POST,PUT,DELETE");
 header("Access-Control-Max-Age: 3600");
