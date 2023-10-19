@@ -4,12 +4,18 @@ $mysql = new hosxpdata();
 $json = file_get_contents('php://input');
 $array = json_decode($json, true);
 
-$sqlSelect= "select id from rbh_excu_refer where vn = '$array[vn]' ";
+//$sqlSelect= "select id from rbh_excu_refer ";
+$sqlSelect= "select id from rbh_excu_refer where vn = ".$array['vn']." ";
+//echo $sqlSelect;
 $resSelect = $mysql->selectOne($sqlSelect, null);
-print_r($array);
+//print_r($resSelect);
 
 //echo json_encode($resSelect);
 
+//print_r($array);
+//echo $array[vn];
+
+//echo count($resSelect);
 
 
 
@@ -17,7 +23,7 @@ print_r($array);
 
 //echo $sql;
 
-if($resSelect){
+if($resSelect['id']){
 //    echo "มีข้อมููล";;
     $id = $resSelect['id'];
     $arrayUpdate['hospcode_origin'] = $array['hospcode_origin'];
@@ -27,6 +33,8 @@ if($resSelect){
     $sqlUpdate = "UPDATE rbh_excu_refer SET hospcode_origin = :hospcode_origin , save_datetime=:save_datetime WHERE id = '$id'";
 
     $res = $mysql->updateData($sqlUpdate, $arrayUpdate);
+
+
     if ($res){
         $array0['status'] = 'UY';
         $array0['res'] = $res;
@@ -37,15 +45,14 @@ if($resSelect){
     }
 }else{
 //    echo "ไม่มี";
-    $sqlInsert = "INSERT INTO rbh_excu_refer (vn, hospcode_origin, save_datetime) VALUES (:vn, :hospcode_origin, :save_datetime)";
+    $sqlInsert = "INSERT INTO rbh_excu_refer (vn,hospcode_origin,save_datetime) VALUES (:vn,:hospcode_origin,:save_datetime)";
     $res = $mysql->insertData($sqlInsert, $array);
 
     if ($res){
         $array0['status'] = "Y";
     }else{
         $array0['status'] = "N";
-
-    }
+}
 }
 
 

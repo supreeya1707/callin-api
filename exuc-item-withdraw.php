@@ -9,6 +9,7 @@ $data['vn'] = $_GET['vn'];
 $sql = "SELECT
 	opitemrece.icode AS 'icode',
 	opitemrece.income AS 'INCOME',
+	opitemrece.vstdate AS 'vstdate',
 	income.`name` AS 'INCOME_NAME',
 IF
 	( nondrugitems.NAME IS NULL OR nondrugitems.NAME = '', '', nondrugitems.NAME ) AS 'NondrugName',
@@ -31,10 +32,13 @@ IF
 	opitemrece.qty AS 'Qty',
 	ROUND( opitemrece.sum_price, 2 ) AS 'Total',
 	opitemrece.doctor AS 'DoctorCode',
+	doc.`name` AS 'DOC_NEW',
+	doc.`code` AS 'DOC_NEWCODE',
 IF
 	( doctor.NAME IS NULL OR doctor.NAME = '', '-', doctor.NAME ) AS 'DoctorName',
 	opitemrece.hn AS 'HN',
 	opitemrece.vn AS 'VN' ,
+	
 	false AS 'select'
 
         
@@ -49,7 +53,8 @@ FROM
 	LEFT OUTER JOIN patient ON patient.hn = opitemrece.hn
 	LEFT OUTER JOIN doctor ON doctor.`code` = opitemrece.doctor
 	LEFT OUTER JOIN pttype ON pttype.pttype = opitemrece.pttype -- 	LEFT OUTER JOIN rbh_exuc_icode ON rbh_exuc_icode.icode = opitemrece.icode
-	
+	Left OUTER JOIN ovst ov ON ov.vn=opitemrece.vn
+    Left outer join doctor doc ON doc.`code`= ov.doctor
 WHERE
 	opitemrece.vn = :vn 
   	
