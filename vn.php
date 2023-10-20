@@ -34,7 +34,8 @@ FROM
     LEFT OUTER JOIN  hospcode hexc ON hexc.hospcode=exc.hospcode_origin
 WHERE
 	vs.hn = :hn
-	ORDER BY vs.vn DESC ";
+  	AND YEAR(vs.vstdate) >= '2021'
+	ORDER BY vs.vn DESC";
 
 $res = $mysql->selectAll($sql, $data);
 
