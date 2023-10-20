@@ -31,7 +31,7 @@ IF
 	) AS 'DrugUsage',
 	opitemrece.unitprice AS 'UnitPrice',
 	opitemrece.qty AS 'Qty',
-	ROUND( opitemrece.sum_price, 2 ) AS 'Total',
+	ROUND( (opitemrece.unitprice * opitemrece.qty), 2 ) AS 'Total',
 	opitemrece.doctor AS 'DoctorCode',
 	doc.`name` AS 'DOC_NEW',
 	doc.`code` AS 'DOC_NEWCODE',
