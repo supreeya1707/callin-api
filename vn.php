@@ -23,7 +23,6 @@ $sql = "SELECT
     (CASE WHEN vs.vn IN (SELECT vn FROM rbh_excu_itemrecive WHERE vn = vs.vn GROUP BY vn) THEN 1 ELSE 0 END) AS 'statusExcu'   ,
     (SELECT save_datetime FROM rbh_excu_itemrecive WHERE vn = vs.vn GROUP BY vn)  AS 'excu_datetime',
     (SELECT icd10 FROM ovstdiag AS od WHERE od.vn = vs.vn AND od.diagtype = 1 GROUP BY od.vn) AS 'icd10'
-
 FROM
 	vn_stat AS vs
 	LEFT OUTER JOIN pttype t ON t.pttype = vs.pttype
@@ -34,7 +33,7 @@ FROM
     LEFT OUTER JOIN  hospcode hexc ON hexc.hospcode=exc.hospcode_origin
 WHERE
 	vs.hn = :hn
-  	AND YEAR(vs.vstdate) >= '2021'
+  	AND vs.vstdate >= '2022-10-01'
 	ORDER BY vs.vn DESC";
 
 $res = $mysql->selectAll($sql, $data);
