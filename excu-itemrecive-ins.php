@@ -20,7 +20,7 @@ $resSelect = $mysql->selectAll($sqlSelect, null);
 //echo $sqlSelect;
 
 if($resSelect){
-    $id = $resSelect[0]['id'];
+    $arrayUpdate['id'] = $resSelect[0]['id'];
     $arrayUpdate['vn'] = $array['vn'];
     $arrayUpdate['icode'] = $array['icode'];
     $arrayUpdate['status_item'] = $array['status_item'];
@@ -30,7 +30,16 @@ if($resSelect){
     $arrayUpdate['doctorcode'] = $array['doctorcode'];
     $arrayUpdate['login'] = $array['login'];
 
-    $sqlUpdate = "UPDATE rbh_excu_itemrecive SET vn = :vn, icode = :icode, status_item = :status_item,  update_datetime = :update_datetime ,income = :income ,doctorcode = :doctorcode ,vstdate= :vstdate WHERE id = '$id'";
+    $sqlUpdate = "UPDATE rbh_excu_itemrecive 
+                    SET vn = :vn, 
+                        icode = :icode, 
+                        status_item = :status_item,  
+                        update_login = :login,
+                        update_datetime = :update_datetime,
+                        income = :income,
+                        doctorcode = :doctorcode,
+                        vstdate= :vstdate 
+                    WHERE id = :id";
 
     $res = $mysql->updateData($sqlUpdate, $arrayUpdate);
     if ($res){
@@ -51,7 +60,8 @@ if($resSelect){
 //    $arrayins['income'] = $array['income'];
 //    $arrayins['vstdate'] = $array['vstdate'];
 //    $arrayins['doctorcode'] = $array['doctorcode'];
-    $sqlInsert = "INSERT INTO rbh_excu_itemrecive (vn,icode,vstdate,status_item,save_datetime,update_datetime,income,doctorcode,login) VALUES (:vn,:icode,:vstdate,:status_item,:save_datetime,:update_datetime,:income,:doctorcode,:login)";
+    $sqlInsert = "INSERT INTO rbh_excu_itemrecive (vn, icode, vstdate, status_item, save_datetime, income, doctorcode, login) 
+                    VALUES (:vn, :icode, :vstdate, :status_item, :save_datetime, :income, :doctorcode, :login)";
     $res = $mysql->insertData($sqlInsert, $array);
 //    echo $sqlInsert;
     if ($res){

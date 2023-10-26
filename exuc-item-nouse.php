@@ -29,8 +29,8 @@ IF
 		concat( drugusage.name1, drugusage.name2, drugusage.name3 ) 
 	) AS 'DrugUsage',
 	opitemrece.unitprice AS 'UnitPrice',
-	opitemrece.qty AS 'Qty',
-	ROUND( opitemrece.sum_price, 2 ) AS 'Total',
+	SUM(opitemrece.qty) AS 'Qty',
+	ROUND((opitemrece.unitprice * SUM(opitemrece.qty)), 2 ) AS 'Total',
 	opitemrece.doctor AS 'DoctorCode',
 	doc.`name` AS 'DOC_NEW',
 	doc.`code` AS 'DOC_NEWCODE',
@@ -58,6 +58,7 @@ WHERE
 -- 		opitemrece.icode='1000309'
 	
 	AND opitemrece.icode  IN ( SELECT icode FROM rbh_exuc_icode ) 
+GROUP BY opitemrece.icode
 ORDER BY
 	opitemrece.income ASC";
 
