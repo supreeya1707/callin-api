@@ -11,8 +11,6 @@ $sql = "SELECT
 	opitemrece.income AS 'INCOME',
 	opitemrece.vstdate AS 'vstdate',
 	income.`name` AS 'INCOME_NAME',
-	rbh_excu_itemrecive.status_item AS 'status_item',
-	
 IF
 	( nondrugitems.NAME IS NULL OR nondrugitems.NAME = '', '', nondrugitems.NAME ) AS 'NondrugName',
 IF
@@ -32,7 +30,7 @@ IF
 	) AS 'DrugUsage',
 	opitemrece.unitprice AS 'UnitPrice',
 	SUM(opitemrece.qty) AS 'Qty',
-	ROUND(opitemrece.unitprice * SUM(opitemrece.qty), 2 ) AS 'Total',
+	ROUND((opitemrece.unitprice * SUM(opitemrece.qty)), 2 ) AS 'Total',
 	opitemrece.doctor AS 'DoctorCode',
 	doc.`name` AS 'DOC_NEW',
 	doc.`code` AS 'DOC_NEWCODE',
@@ -43,6 +41,8 @@ IF
 	
 	false AS 'select'
 
+        
+	
 FROM
 	opitemrece
 	LEFT OUTER JOIN drugitems ON opitemrece.icode = drugitems.icode
@@ -52,17 +52,13 @@ FROM
 	LEFT OUTER JOIN drugusage ON drugusage.drugusage = opitemrece.drugusage
 	LEFT OUTER JOIN patient ON patient.hn = opitemrece.hn
 	LEFT OUTER JOIN doctor ON doctor.`code` = opitemrece.doctor
-	LEFT OUTER JOIN pttype ON pttype.pttype = opitemrece.pttype 
-    LEFT OUTER JOIN rbh_excu_itemrecive ON rbh_excu_itemrecive.icode = opitemrece.icode and rbh_excu_itemrecive.vn = opitemrece.vn
-    Left OUTER JOIN ovst ov ON ov.vn=opitemrece.vn
+	LEFT OUTER JOIN pttype ON pttype.pttype = opitemrece.pttype -- 	LEFT OUTER JOIN rbh_exuc_icode ON rbh_exuc_icode.icode = opitemrece.icode
+	Left OUTER JOIN ovst ov ON ov.vn=opitemrece.vn
     Left outer join doctor doc ON doc.`code`= ov.doctor
-	
 WHERE
 	opitemrece.vn = :vn 
-	AND rbh_excu_itemrecive.status_item = 0  
-
-    GROUP BY 
-	opitemrece.icode 
+	AND opitemrece.icode NOT IN ( SELECT icode FROM rbh_exuc_icode WHERE sso = 1) 
+GROUP BY  opitemrece.icode
 ORDER BY
 	opitemrece.income ASC";
 

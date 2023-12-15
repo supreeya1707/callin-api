@@ -58,7 +58,7 @@ FROM
     Left outer join doctor doc ON doc.`code`= ov.doctor
 WHERE
 	opitemrece.vn = :vn 
-	AND rbh_excu_itemrecive.status_item = 1
+	AND (rbh_excu_itemrecive.status_item = 1 OR  rbh_excu_itemrecive.status_item IS NULL)
 GROUP BY 
 	opitemrece.icode 
 ORDER BY

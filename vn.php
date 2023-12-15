@@ -15,6 +15,8 @@ $sql = "SELECT
 	p.birthday,
 	vs.vstdate AS 'VisitDate',
 	t.NAME AS 'PttypeName',
+	t.pttype,
+	t.pcode,
 	rf.refer_date AS 'ReferDate',
 	rf.refer_hospcode AS 'Hospcode',
 	h.`name` AS 'oldname',

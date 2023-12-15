@@ -4,7 +4,7 @@ include "conn/hosxpdata.php";
 $mysql = new hosxpdata();
 
 
-$sql = "SELECT pttype as 'id', CONCAT(pttype, ' : ', name) AS 'text' from pttype WHERE  pcode IN ('U0','U1') ORDER BY pttype ASC";
+$sql = "SELECT pttype as 'id', CONCAT(pttype, ' : ', name) AS 'text' from pttype WHERE  pcode IN ('U0','U1', 'S1') ORDER BY pttype ASC";
 $res = $mysql->selectAll($sql, null);
 
 
